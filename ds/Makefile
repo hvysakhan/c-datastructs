@@ -4,7 +4,7 @@ CC = clang
 AR = ar
 ARFLAGS = rcs
 
-SRC = queue.c stack.c
+SRC = queue.c stack.c hash_table.c
 OBJ = $(SRC:.c=.o)
 LIB = libds.a
 

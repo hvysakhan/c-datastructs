@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "ds/queue.h"
 #include "ds/stack.h"
+#include "ds/hash_table.h"
 
 void print_int(void* data) {
 	printf("%d", *(int*)data);
@@ -37,5 +38,16 @@ int main(void){
 	print_stack(&stack, print_int);
 	push(&stack, &a);
 	print_stack(&stack, print_int);
+
+	ht_t ht;
+	ht_create(&ht, 100);
+	char *key = "hello";
+	char *value = "world";
+	char *value2;
+	ht_add(&ht, key, value);
+	if(ht_find(&ht, key, &value2) == 0){
+		printf("value is %s", value2);
+	};
+	
 	return 0;
 }
