@@ -20,4 +20,6 @@ typedef struct{
 int ht_create(ht_t *ht, int num_hashes);
 int ht_add(ht_t *ht, char *key, char *value);
 int ht_find(ht_t *ht, char *key, char **value);
+int ht_delete(ht_t *ht, char *key);
+int ht_destroy(ht_t *ht);
 #endif

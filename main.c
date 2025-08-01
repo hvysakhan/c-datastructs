@@ -46,8 +46,12 @@ int main(void){
 	char *value2;
 	ht_add(&ht, key, value);
 	if(ht_find(&ht, key, &value2) == 0){
-		printf("value is %s", value2);
+		printf("value is %s\n", value2);
 	};
-	
+	ht_delete(&ht, key);
+	if(ht_find(&ht, key, &value2) == 0){
+		printf("value is %s\n", value2);
+	};
+	ht_destroy(&ht);
 	return 0;
 }

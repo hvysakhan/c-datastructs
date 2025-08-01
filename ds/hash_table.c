@@ -34,6 +34,10 @@ int compute_hash_djb2(ht_t *ht, char* key, int *hash_value){
 int ht_add(ht_t *ht, char* key, char *value){
 	if(ht == NULL || key == NULL || value == NULL)
 		return -1;
+	char *val;
+	if(ht_find(ht, key, &val) == 0){
+		return -1;
+	}
 
 	int hash_value;
 	uint64_t key_len = strlen(key);
@@ -64,7 +68,7 @@ int ht_find(ht_t *ht, char* key, char **value){
 	compute_hash_djb2(ht, key, &hash_value);
 	ht_element_t *el = ht->head[hash_value].head;
 	while(el != NULL){
-		if(strncmp(el->key, key, strlen(key)) == 0){
+		if(strcmp(el->key, key) == 0){
 			// printf("FOUND\n");
 			*value = el->value;
 			// printf("value is %s\n", el->value);
@@ -75,3 +79,51 @@ int ht_find(ht_t *ht, char* key, char **value){
 	return -1;
 }
 
+int ht_delete(ht_t *ht, char *key){
+	if(ht == NULL || key == NULL)
+		return -1;
+
+	int hash_value;
+	compute_hash_djb2(ht, key, &hash_value);
+	ht_element_t *el = ht->head[hash_value].head;
+	ht_element_t *prev_el = NULL;
+	while(el != NULL){
+
+		if(strcmp(el->key, key) == 0){
+			if(prev_el == NULL){
+				ht->head[hash_value].head = el->next;
+			}else{
+				prev_el->next = el->next;
+			}
+			free(el->key);
+			free(el->value);
+			free(el);
+			return 0;
+		}
+		prev_el = el;
+		el = el->next;
+	}
+	return -1;
+}
+
+
+int ht_destroy(ht_t *ht){
+	if(ht == NULL)
+		return -1;
+	ht_element_t *el, *prev_el;
+	for (int i = 0; i < ht->num_hashes; i++){
+		el = ht->head[i].head;
+		while(el != NULL){
+			prev_el = el;
+			el = el->next;
+			free(prev_el->key);
+			free(prev_el->value);
+			free(prev_el);
+		}
+		
+	}
+	free(ht->head);
+	ht->head = NULL;
+	ht->num_hashes = 0;
+	return 0;
+}
