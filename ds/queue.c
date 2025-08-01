@@ -21,6 +21,10 @@ int print_queue(queue_t* queue, void (*print_fn)(void*)) {
 
 
 int init_queue(queue_t* queue, size_t bytes){
+	if(queue == NULL)
+		return -1;
+	if(bytes<=0)
+		return -1;
 	queue->data_bytes = bytes;
 	queue->num_elements = 0;
 	queue->head = NULL;
@@ -40,6 +44,9 @@ int deinit_queue(queue_t* queue){
 		free(tmp->data);
 		free(tmp);
 	}
+	queue->head = NULL;
+	queue->tail = NULL;
+	queue->num_elements = 0;
 	return 0;
 }
 

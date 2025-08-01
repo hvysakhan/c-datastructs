@@ -1,11 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 #include <stddef.h>
-
-typedef struct element{
-	void* data;
-	struct element *nxt_element;
-}element_t;
+#include "common.h"
 
 typedef struct{
 	size_t data_bytes;
