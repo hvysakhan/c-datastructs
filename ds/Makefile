@@ -1,5 +1,3 @@
-# queue/Makefile
-
 CC = clang
 AR = ar
 ARFLAGS = rcs

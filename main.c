@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "ds/queue.h"
 #include "ds/stack.h"
 #include "ds/hash_table.h"
@@ -42,15 +43,23 @@ int main(void){
 	ht_t ht;
 	ht_create(&ht, 100);
 	char *key = "hello";
+	typedef struct rand{
+		int a, b;
+	}rand_t;
+	rand_t rand;
+	rand.a = 99;
+	rand.b = 96;
+
 	char *value = "world";
-	char *value2;
-	ht_add(&ht, key, value);
+	void *value2;
+	ht_add(&ht, key, &rand, strlen(value)+1);
 	if(ht_find(&ht, key, &value2) == 0){
-		printf("value is %s\n", value2);
+		rand_t *el = (rand_t*)value2;
+		printf("value is %d %d\n", el->a, el->b);
 	};
 	ht_delete(&ht, key);
 	if(ht_find(&ht, key, &value2) == 0){
-		printf("value is %s\n", value2);
+		printf("value is %s\n", (char*)value2);
 	};
 	ht_destroy(&ht);
 	return 0;

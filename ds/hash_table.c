@@ -1,4 +1,6 @@
 #include "hash_table.h"
+#include <_string.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,17 +33,16 @@ int compute_hash_djb2(ht_t *ht, char* key, int *hash_value){
 	return 0;
 }
 
-int ht_add(ht_t *ht, char* key, char *value){
+int ht_add(ht_t *ht, char* key, void *value, size_t value_bytes){
 	if(ht == NULL || key == NULL || value == NULL)
 		return -1;
-	char *val;
+	void *val;
 	if(ht_find(ht, key, &val) == 0){
 		return -1;
 	}
 
 	int hash_value;
 	uint64_t key_len = strlen(key);
-	uint64_t value_len = strlen(value);
 	compute_hash_djb2(ht, key, &hash_value);
 	
 	ht->head[hash_value].num_hash_elmnts += 1;
@@ -51,16 +52,16 @@ int ht_add(ht_t *ht, char* key, char *value){
 	el->next = old_head;
 
 	el->key  = malloc(sizeof(char)*(key_len+1));
-	el->value = malloc(sizeof(char)*(value_len+1));
+	el->value = malloc(value_bytes);
 	strncpy(el->key, key, key_len+1);
-	strncpy(el->value, value, value_len+1);
+	memcpy(el->value, value, value_bytes);
 	// printf("hash value is %d\n", hash_value);
 	// printf("key is %s\n", el->key);
 	return 0;
 
 }
 
-int ht_find(ht_t *ht, char* key, char **value){
+int ht_find(ht_t *ht, char* key, void **value){
 	if(ht == NULL || key == NULL)
 		return -1;
 
