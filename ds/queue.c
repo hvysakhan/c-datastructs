@@ -58,6 +58,7 @@ int enqueue(queue_t* queue, void* data){
 	el->nxt_element = NULL;
 	el->data = malloc(queue->data_bytes);
 	memcpy(el->data, data, queue->data_bytes);
+	queue->num_elements+=1;
 	if(queue->tail == NULL){
 		assert(queue->head == NULL);
 		queue->tail = el;
@@ -66,7 +67,7 @@ int enqueue(queue_t* queue, void* data){
 	}	
 	queue->tail->nxt_element = el;
 	queue->tail = el;
-	queue->num_elements+=1;
+	
 	return 0;
 }
 

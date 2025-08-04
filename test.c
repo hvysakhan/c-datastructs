@@ -10,7 +10,7 @@ void print_int(void* data) {
 }
 
 
-int main(void){	
+void test_queue(){
 	queue_t queue;
 	int a = 3;
 	init_queue(&queue, sizeof(int));
@@ -36,8 +36,12 @@ int main(void){
 	assert(queue.head == NULL && queue.tail == NULL && queue.num_elements == 0);
 	enqueue(&queue, &a);
 	assert(queue.num_elements == 1);
+}
 
+void test_stack(){
 	ds_stack_t stack;
+	int el;
+	int a = 4;
 	init_stack(&stack, sizeof(int));
 	assert(stack.head == NULL && stack.num_elements == 0);
 	push(&stack, &a);
@@ -58,7 +62,11 @@ int main(void){
 	assert(stack.num_elements == 1 && stack.head != NULL);
 	deinit_stack(&stack);
 	assert(stack.num_elements == 0 && stack.head == NULL);
+}
 
+
+
+void test_hashtable(){
 	ht_t ht;
 	char *key = "hello";
 	typedef struct rand{
@@ -81,5 +89,13 @@ int main(void){
 	assert(ht_find(&ht, key, &value2) !=0);
 	ht_destroy(&ht);
 	assert(ht.num_hashes == 0 && ht.head == NULL);
+}
+
+int main(void){	
+	
+	test_queue();
+	test_stack();
+	test_hashtable();
+	
 	return 0;
 }
