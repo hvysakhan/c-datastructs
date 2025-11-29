@@ -3,6 +3,9 @@
 #include <stddef.h>
 #include "common.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct{
 	size_t data_bytes;
@@ -15,5 +18,9 @@ int init_stack(ds_stack_t* stack, size_t bytes);
 int deinit_stack(ds_stack_t* stack);
 int push(ds_stack_t* stack, void* data);
 int pop(ds_stack_t* stack, void* element);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

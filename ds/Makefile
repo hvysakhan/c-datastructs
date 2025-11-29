@@ -1,12 +1,13 @@
-CC = clang
+CC = gcc
 AR = ar
 ARFLAGS = rcs
 
-SRC = queue.c stack.c hash_table.c
+SRC = queue.c stack.c hash_table.c named_list.c queue_any.c
 OBJ = $(SRC:.c=.o)
+DEP = $(SRC:.c=.d)
 LIB = libds.a
 
-CFLAGS = -Wall -I.
+CFLAGS = $(CFLAGS_COMMON) -I.
 
 all: $(LIB)
 
@@ -17,4 +18,7 @@ $(LIB): $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f *.o *.a
+	$(RM) *.o *.d *.a
+
+-include $(DEP)
+

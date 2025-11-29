@@ -1,4 +1,5 @@
 #include "queue.h"
+#include "common.h"
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
@@ -20,11 +21,12 @@ int print_queue(queue_t* queue, void (*print_fn)(void*)) {
 }
 
 
-int init_queue(queue_t* queue, size_t bytes){
+int init_queue(queue_t* queue, size_t bytes, int max_elements){
 	if(queue == NULL)
 		return -1;
 	if(bytes<=0)
 		return -1;
+	queue->max_elements = max_elements;
 	queue->data_bytes = bytes;
 	queue->num_elements = 0;
 	queue->head = NULL;
@@ -53,8 +55,10 @@ int deinit_queue(queue_t* queue){
 int enqueue(queue_t* queue, void* data){
 	if(queue == NULL)
 		return -1;
-
-	element_t *el = malloc(sizeof(element_t));
+	if(queue->max_elements >= 0 && queue->num_elements >= queue->max_elements){
+		return -1;
+	}
+	element_t *el = (element_t*)malloc(sizeof(element_t));
 	el->nxt_element = NULL;
 	el->data = malloc(queue->data_bytes);
 	memcpy(el->data, data, queue->data_bytes);

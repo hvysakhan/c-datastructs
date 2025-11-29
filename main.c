@@ -13,7 +13,7 @@ void print_int(void* data) {
 int main(void){	
 	queue_t queue;
 	int a = 3;
-	init_queue(&queue, sizeof(int));
+	init_queue(&queue, sizeof(int), -1);
 	assert(queue.head == NULL && queue.tail == NULL && queue.num_elements == 0);
 	enqueue(&queue, &a);
 	assert(queue.num_elements == 1);
@@ -32,7 +32,7 @@ int main(void){
 	enqueue(&queue, &a);
 	deinit_queue(&queue);
 	assert(queue.num_elements == 0 && queue.head == NULL && queue.tail == NULL);
-	init_queue(&queue, sizeof(int));
+	init_queue(&queue, sizeof(int), -1);
 	assert(queue.head == NULL && queue.tail == NULL && queue.num_elements == 0);
 	enqueue(&queue, &a);
 	assert(queue.num_elements == 1);

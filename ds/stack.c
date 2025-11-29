@@ -52,7 +52,7 @@ int push(ds_stack_t *stack, void *data){
 	if(stack == NULL)
 		return -1;
 
-	element_t *el = malloc(sizeof(element_t));
+	element_t *el = (element_t*)malloc(sizeof(element_t));
 	el->nxt_element = NULL;
 	el->data = malloc(stack->data_bytes);
 	memcpy(el->data, data, stack->data_bytes);

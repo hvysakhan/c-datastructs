@@ -1,21 +1,22 @@
 
 # Makefile in the root directory
 
-CC = clang
+CC = gcc
 CFLAGS = -Wall -Ids
 LDFLAGS = -Lds -lds
 
 SRC = main.c
 OBJ = $(SRC:.c=.o)
+DEP = $(SRC:.c=.d)
 TARGET = main
 
 TEST_SRC = test.c
 TEST_OBJ = $(TEST_SRC:.c=.o)
 TEST_TARGET = test
 
-.PHONY: all clean ds
+.PHONY: all clean ds test
 
-all: ds $(TARGET) test
+all: ds $(TARGET) $(TEST_TARGET)
 
 # Build the main binary
 $(TARGET): $(OBJ)
@@ -23,7 +24,7 @@ $(TARGET): $(OBJ)
 
 
 # Build the test binary
-$(TEST_TARGET): $(OBJ)
+$(TEST_TARGET): $(TEST_OBJ)
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
 # Build static library in ds/
@@ -36,3 +37,6 @@ ds:
 clean:
 	$(MAKE) -C ds clean
 	rm -f $(OBJ) $(TARGET) $(TEST_TARGET)
+
+-include $(DEP)
+
